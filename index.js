@@ -1,5 +1,89 @@
 /* Your Code Here */
 
+function createEmployeeRecord([firstName, familyName, title, payPerHour]) {
+    return {
+        firstName: firstName,
+        familyName: familyName,
+        title: title,
+        payPerHour: payPerHour,
+        timeInEvents: [],
+        timeOutEvents: []
+    };
+}
+
+function createEmployeeRecords(arrayOfArrays) {
+    return arrayOfArrays.map(createEmployeeRecord);
+}
+
+function createTimeInEvent(employeeRecord, dateStamp) {
+    if (!dateStamp) return;
+    const [date, hour] = dateStamp.split(' ');
+    employeeRecord.timeInEvents.push({
+        type: "TimeIn",
+        hour: parseInt(hour, 10),
+        date: date
+    });
+    return employeeRecord;
+}
+
+function createTimeOutEvent(employeeRecord, dateStamp) {
+    if (!dateStamp) return;
+    const [date, hour] = dateStamp.split(' ');
+    employeeRecord.timeOutEvents.push({
+        type: "TimeOut",
+        hour: parseInt(hour, 10),
+        date: date
+    });
+    return employeeRecord;
+}
+
+
+function createTimeInEvent(employeeRecord, dateStamp) {
+    if (!dateStamp) return;
+    if (!employeeRecord.timeInEvents) {
+      employeeRecord.timeInEvents = [];  // Initialize if it doesn't exist
+    }
+    const [date, hour] = dateStamp.split(' ');
+    employeeRecord.timeInEvents.push({
+      type: "TimeIn",
+      hour: parseInt(hour, 10),
+      date: date
+    });
+    return employeeRecord;
+  }
+
+function hoursWorkedOnDate(employeeRecord, date) {
+    const timeIn = employeeRecord.timeInEvents.find(event => event.date === date);
+    const timeOut = employeeRecord.timeOutEvents.find(event => event.date === date);
+    const hoursWorked = (timeOut.hour - timeIn.hour) / 100;
+    return hoursWorked;
+}
+
+function wagesEarnedOnDate(employeeRecord, date) {
+    const hoursWorked = hoursWorkedOnDate(employeeRecord, date);
+    const wagesEarned = hoursWorked * employeeRecord.payPerHour;
+    return wagesEarned;
+}
+
+function calculatePayroll(employeeRecords) {
+    const totalPayroll = employeeRecords.reduce((total, employeeRecord) => total + allWagesFor(employeeRecord), 0);
+    return totalPayroll;
+}
+
+
+function findEmployeeByFirstName(srcArray, firstName) {
+    return srcArray.find(record => record.firstName === firstName);
+}
+
+function calculatePayroll(employeeRecords) {
+    const totalPayroll = employeeRecords.reduce((total, record) => total + allWagesFor(record), 0);
+    return totalPayroll;
+}
+
+
+
+
+
 /*
  We're giving you this function. Take a look at it, you might see some usage
  that's new and different. That's because we're avoiding a well-known, but
